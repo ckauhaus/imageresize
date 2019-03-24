@@ -1,0 +1,5 @@
+.*.sw?
+result
+resized/
+*.JPG
+*.jpg
