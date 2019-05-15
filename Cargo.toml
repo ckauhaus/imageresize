@@ -1,0 +1,17 @@
+[package]
+name = "imageresize"
+version = "0.2.0"
+authors = ["Christian Kauhaus <christian@kauhaus.de>"]
+edition = "2018"
+
+[dependencies]
+clap = { version = "2.32", features = ["wrap_help"] }
+mozjpeg = "0.8"
+rayon = "1.0"
+rexiv2 = "0.7"
+snafu = { version = "0.3", features = ["rust_1_30"] }
+
+[dependencies.image]
+version = "0.21"
+default-features = false
+features = ["gif_codec", "jpeg", "png_codec", "pnm", "webp", "jpeg_rayon"]
