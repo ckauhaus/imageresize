@@ -11,12 +11,12 @@ with pkgs;
 
 rustPlatform.buildRustPackage rec {
   name = "imageresize-${version}";
-  version = "0.2";
+  version = "0.2.1";
   src = lib.cleanSourceWith {
     filter = (name: _: baseNameOf name != "target");
     src = (lib.cleanSource ./.);
   };
-  cargoSha256 = "1h7cm3l2zxdd73aq7czkadsb1ypffqm66y5crws38vvsynaxkrhx";
+  cargoSha256 = "01nl5gy5v27w76di51dwns3dmgysvbspg786fgfszprgnq9mc0p3";
   doCheck = false;
 
   nativeBuildInputs = [ pkgconfig ];
