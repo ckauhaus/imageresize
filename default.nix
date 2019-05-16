@@ -16,9 +16,14 @@ rustPlatform.buildRustPackage rec {
     filter = (name: _: baseNameOf name != "target");
     src = (lib.cleanSource ./.);
   };
-  cargoSha256 = "01nl5gy5v27w76di51dwns3dmgysvbspg786fgfszprgnq9mc0p3";
+  cargoSha256 = "07qgxf33kqcn9v2grfs5b3nqcp21p3rs6il0hckzw96kdpila807";
   doCheck = false;
-
-  nativeBuildInputs = [ pkgconfig ];
-  propagatedBuildInputs = [ gexiv2.dev glib.dev ];
+  nativeBuildInputs = [
+    nasm
+    pkgconfig
+  ];
+  buildInputs = [
+    gexiv2.dev
+    glib.dev
+  ];
 }
