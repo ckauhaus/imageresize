@@ -84,7 +84,7 @@ impl Converter {
             .expect("libjpeg internal compression error")
     }
 
-    fn convert(&self, src: &Path) -> Result<()> {
+    fn convert(&self, src: &Path) -> Result<PathBuf> {
         let (img, meta) = load(src)?;
         let dir = src.parent().unwrap_or_else(|| Path::new("."));
         let base = Path::new(src.file_stem().context(UglyFile { src })?);
@@ -100,9 +100,9 @@ impl Converter {
         } else {
             fs::hard_link(src, &dst)
                 .or_else(|_| fs::copy(src, &dst).map(|_| ()))
-                .context(Write { dst })?;
+                .context(Write { dst: &dst })?;
         }
-        Ok(())
+        Ok(dst)
     }
 }
 
@@ -130,7 +130,7 @@ fn cli() -> clap::App<'static, 'static> {
         )
         .arg(
             Arg::from_usage(
-                "[SIZE] -s -m --max-size \
+                "[SIZE] -m --max-size \
                 'Rescales images so that the longest dimension is no more than SIZE pixels'",
             )
             .default_value("3840")
@@ -156,12 +156,15 @@ fn main() {
         .par_iter()
         .map(|f| {
             let src = Path::new(f);
-            if let Err(e) = conv.convert(&src) {
-                eprint!("{}: {}\n", src.display(), e);
-                Some(src.to_string_lossy())
-            } else {
-                println!("{}", src.display());
-                None
+            match conv.convert(&src) {
+                Err(e) => {
+                    eprint!("{}: {}\n", src.display(), e);
+                    Some(src.to_string_lossy())
+                }
+                Ok(dst) => {
+                    println!("{}", dst.display());
+                    None
+                }
             }
         })
         .filter_map(|e| e)

@@ -2,7 +2,11 @@
 name = "imageresize"
 version = "0.2.0"
 authors = ["Christian Kauhaus <christian@kauhaus.de>"]
+description = "Handy tool for reducing masses of JPEG files to resonable file sizes."
 edition = "2018"
+readme = "README.md"
+license = "BSD-3-Clause"
+# tested with Rust 1.34
 
 [dependencies]
 clap = { version = "2.32", features = ["wrap_help"] }
